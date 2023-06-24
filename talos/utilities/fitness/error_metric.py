@@ -190,7 +190,7 @@ def auc_autoencoder(model):
     # print("AUCCCCCC")
     print(auc)
 
-    return auc
+    return auc, rec_error, rec_losses, threshold
 
 
 auc_autoencoder.maximise = True
@@ -280,6 +280,19 @@ def anomaly_score_svm(model):
 
 
 anomaly_score_svm.maximise = True
+
+
+def anomaly_score_lof(model):
+    test_data = params["X_val"]
+    print(test_data.shape)
+
+    anomaly_scores = model.decision_function(test_data)
+    print(anomaly_scores.shape)
+
+    return np.mean(anomaly_scores)
+
+
+anomaly_score_lof.maximise = True
 
 
 # calculate Bayesian Information Criterion

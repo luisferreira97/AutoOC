@@ -1,0 +1,19 @@
+# local outliear factor
+
+<res> ::= model = LocalOutlierFactor(n_neighbors = <n_neighbors>, algorithm = <algorithm>, leaf_size = <leaf_size>, metric = <metric>, contamination = <contamination>, novelty = "True", n_jobs =-1)
+
+<n_neighbors> ::= <single_digit> | <single_digit><digit> | <single_digit><digit><digit>
+
+<single_digit> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+<digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+<algorithm> ::= "'ball_tree'" | "'kd_tree'" | "'brute'" | "'auto'"
+
+<leaf_size> ::= <single_digit> | <single_digit><digit>
+
+<metric> ::= "'minkowski'" | "'cityblock'" | "'chebyshev'" | "'euclidean'" | "'l1'" | "'l2'"
+
+<contamination> ::= "'auto'" | 0.<half_digits>
+
+<half_digits> ::= 1 | 2 | 3 | 4 | 5

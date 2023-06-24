@@ -2,6 +2,7 @@ keras==2.6.0
 matplotlib==3.4.1
 mlflow==1.15.0
 pandas==1.2.4
+pydot==1.4.2
 pygmo==2.16.1
 scikit-learn==1.0
 tensorflow==2.6.0

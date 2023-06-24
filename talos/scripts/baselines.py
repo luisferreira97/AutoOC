@@ -110,12 +110,8 @@ def fit_enet(train_X, train_y, test_X):
 if __name__ == "__main__":
 
     dataset_name = sys.argv[1]
-    if len(sys.argv) > 2:
-        metric = sys.argv[2]
-    else:
-        metric = "rmse"
-
-    s = "from .error_metric import " + metric + " as metric"
+    metric = sys.argv[2] if len(sys.argv) > 2 else "rmse"
+    s = f"from .error_metric import {metric} as metric"
     exec(s)
 
     train_X, train_y, test_X, test_y = get_data(dataset_name)

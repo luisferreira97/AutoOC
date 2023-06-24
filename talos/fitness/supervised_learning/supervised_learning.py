@@ -5,6 +5,7 @@ from xml.dom.pulldom import parseString
 
 import numpy as np
 from sklearn.ensemble import IsolationForest
+from sklearn.neighbors import LocalOutlierFactor
 from sklearn.svm import OneClassSVM
 from tensorflow.keras import Input, Sequential
 from tensorflow.keras.callbacks import EarlyStopping
@@ -64,7 +65,7 @@ class supervised_learning(base_ff):
 
         if params["ALGORITHM"] == "autoencoder":
             metric = evaluate_autoencoder(ind, self.dtrain)
-        elif params["ALGORITHM"] in ["iforest", "svm"]:
+        elif params["ALGORITHM"] in ["iforest", "svm", "lof"]:
             metric = evaluate_sklearn(ind, self.dtrain)
         elif params["ALGORITHM"] == "all":
             metric = evaluate_all(ind, self.dtrain)
@@ -145,9 +146,13 @@ def evaluate_autoencoder(ind, X_train):
     )
 
     if params["TYPE"] == "unsupervised":
-        metric = metric_rec_error(model, ind)
+        metric, rec_losses, threshold = metric_rec_error(model, ind)
     else:
-        metric = metric_auc(model, ind)
+        metric, rec_error, rec_losses, threshold = metric_auc(model, ind)
+
+    ind.threshold = threshold
+    ind.losses = rec_losses
+    ind.rec_error = metric
 
     # save complexity scores
     filename = path.join(params["FILE_PATH"], "complexity.csv")
@@ -172,6 +177,8 @@ def evaluate_sklearn(ind, X_train, algorithm=None):
         d = {"IsolationForest": IsolationForest}
     elif params["ALGORITHM"] == "svm" or algorithm == "svm":
         d = {"OneClassSVM": OneClassSVM}
+    elif params["ALGORITHM"] == "lof" or algorithm == "lof":
+        d = {"LocalOutlierFactor": LocalOutlierFactor}
 
     exec(ind.phenotype, d)
     print("FENOTIPO")
@@ -188,7 +195,10 @@ def evaluate_sklearn(ind, X_train, algorithm=None):
     model.fit(X_train)
     fit_end = time.time()
 
-    metric = metric_auc_sklearn(model, ind)
+    if params["TYPE"] == "unsupervised":
+        metric = metric_anomaly_score(model, ind)
+    else:
+        metric = metric_auc_sklearn(model, ind)
 
     training_time = fit_end - fit_start
     ind.training_time = training_time
@@ -201,6 +211,7 @@ def evaluate_sklearn(ind, X_train, algorithm=None):
     ind.predict_time = predict_time
     #ind.num_params = model.count_params()
     ind.model = model
+    ind.generation = stats["gen"]
 
     # save complexity scores
     filename = path.join(params["FILE_PATH"], "complexity.csv")
@@ -210,6 +221,8 @@ def evaluate_sklearn(ind, X_train, algorithm=None):
                 str(stats["gen"])
                 + ";"
                 + str(ind.name)
+                + ";"
+                + str(ind.id)
                 + ";"
                 + str(training_time)
                 + "\n"
@@ -231,7 +244,8 @@ def evaluate_all(ind, X_train):
         "get_model_from_encoder": get_model_from_encoder2,
         "input_shape": shape,
         "OneClassSVM": OneClassSVM,
-        "IsolationForest": IsolationForest
+        "IsolationForest": IsolationForest,
+        "LocalOutlierFactor": LocalOutlierFactor
     }
 
     exec(ind.phenotype, d)
@@ -253,6 +267,8 @@ def evaluate_all(ind, X_train):
         metric = evaluate_sklearn(ind, X_train, algorithm="svm")
     elif model.__class__.__name__ == "IsolationForest":
         metric = evaluate_sklearn(ind, X_train, algorithm="iforest")
+    elif model.__class__.__name__ == "LocalOutlierFactor":
+        metric = evaluate_sklearn(ind, X_train, algorithm="lof")
 
     return metric
 
@@ -260,35 +276,33 @@ def evaluate_all(ind, X_train):
 def metric_auc(model, ind):
     # calculate reconstruction error
     #auc = params["ERROR_METRIC"](model)
-    auc = auc_autoencoder(model)
+    auc, rec_error, rec_losses, threshold = auc_autoencoder(model)
 
     # save prediction scores
-    filename = path.join(params["FILE_PATH"], "test_aucs.csv")
+    filename = path.join(params["FILE_PATH"], "val_aucs.csv")
     with open(filename, "a") as the_file:
         the_file.write(
             (str(stats["gen"]) + ";" + str(ind.name) +
-                ";" + str(auc) + "\n")
+                ";" + str(ind.id) + ";" + str(auc) + "\n")
         )
 
-    return auc
+    return auc, rec_error, rec_losses, threshold
 
 
 def metric_rec_error(model, ind):
     # calculate reconstruction error
     rec_error, rec_losses, threshold = params["ERROR_METRIC"](model)
 
-    ind.threshold = threshold
-    ind.losses = rec_losses
-
     # save prediction scores
-    filename = path.join(params["FILE_PATH"], "test_rec_errors.csv")
+    filename = path.join(params["FILE_PATH"], "val_rec_errors.csv")
     with open(filename, "a") as the_file:
         the_file.write(
             (str(stats["gen"]) + ";" + str(ind.name) +
+                ";" + str(ind.id) +
                 ";" + str(rec_error) + "\n")
         )
 
-    return rec_error
+    return rec_error, rec_losses, threshold
 
 
 def metric_auc_sklearn(model, ind):
@@ -297,10 +311,11 @@ def metric_auc_sklearn(model, ind):
     auc = auc_sklearn(model)
 
     # save prediction scores
-    filename = path.join(params["FILE_PATH"], "test_aucs.csv")
+    filename = path.join(params["FILE_PATH"], "val_aucs.csv")
     with open(filename, "a") as the_file:
         the_file.write(
             (str(stats["gen"]) + ";" + str(ind.name) +
+                ";" + str(ind.id) +
                 ";" + str(auc) + "\n")
         )
 
@@ -313,11 +328,11 @@ def metric_anomaly_score(model, ind):
     auc = params["ERROR_METRIC"](model)
 
     # save prediction scores
-    filename = path.join(params["FILE_PATH"], "test_aucs.csv")
+    filename = path.join(params["FILE_PATH"], "val_anomaly_scores.csv")
     with open(filename, "a") as the_file:
         the_file.write(
             (str(stats["gen"]) + ";" + str(ind.name) +
-                ";" + str(auc) + "\n")
+                ";" + str(ind.id) + ";" + str(auc) + "\n")
         )
 
     return auc

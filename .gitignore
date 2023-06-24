@@ -133,3 +133,4 @@ dmypy.json
 /talos/results/*
 data/*
 src/asoc-experiments/results/*
+src/asoc-neuro-experiments/*

@@ -1,6 +1,6 @@
 # isolation forest
 
-<res> ::= model = IsolationForest(n_estimators = <estimators>, contamination = <contamination>, bootstrap = <bootstrap>)
+<res> ::= model = IsolationForest(n_estimators = <estimators>, contamination = <contamination>, bootstrap = <bootstrap>, n_jobs =-1)
 
 <estimators> ::= <single_digit> | <single_digit><digit> | <single_digit><digit><digit>
 

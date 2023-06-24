@@ -1,6 +1,7 @@
 import math
+import os
 import pickle
-from os import makedirs, path
+from datetime import datetime
 from re import A
 from typing import List
 
@@ -59,32 +60,39 @@ class Talos(object):
         y_val: pd.DataFrame = None,
         pop: int = 100,
         gen: int = 100,
-        experiment_name: str = "test",
-        results_path: str = "",
         early_stopping_rounds: int = None,
         early_stopping_tolerance: float = 0.01,
         always_at_hand: bool = False,
+        results_path: str = "./",
+        mlflow_tracking_uri: str = "./",
+        mlflow_experiment_name: str = "mlflow_experiment",
+        mlflow_run_name: str = f"run",
         **extra_params
     ) -> None:
 
         ALGORITHMS = {
             "autoencoder": {
-                "grammar": path.join(path.dirname(path.abspath(__file__)), "grammars", "autoencoders_v4.pybnf"),
+                "grammar": os.path.join(os.path.dirname(os.path.abspath(__file__)), "grammars", "autoencoders_v4.pybnf"),
                 "metric_supervised": "auc_autoencoder",
                 "metric_unsupervised": "reconstruction_error"
             },
             "iforest": {
-                "grammar": path.join(path.dirname(path.abspath(__file__)), "grammars", "iforest.pybnf"),
+                "grammar": os.path.join(os.path.dirname(os.path.abspath(__file__)), "grammars", "iforest.pybnf"),
                 "metric_supervised": "auc_sklearn",
                 "metric_unsupervised": "anomaly_score_iforest"
             },
             "svm": {
-                "grammar": path.join(path.dirname(path.abspath(__file__)), "grammars", "svm.pybnf"),
+                "grammar": os.path.join(os.path.dirname(os.path.abspath(__file__)), "grammars", "svm.pybnf"),
                 "metric_supervised": "auc_sklearn",
                 "metric_unsupervised": "anomaly_score_svm"
             },
+            "lof": {
+                "grammar": os.path.join(os.path.dirname(os.path.abspath(__file__)), "grammars", "lof.pybnf"),
+                "metric_supervised": "auc_sklearn",
+                "metric_unsupervised": "anomaly_score_lof"
+            },
             "all": {
-                "grammar": path.join(path.dirname(path.abspath(__file__)), "grammars", "multi_algo.pybnf"),
+                "grammar": os.path.join(os.path.dirname(os.path.abspath(__file__)), "grammars", "multi_algo.pybnf"),
                 "metric_supervised": "auc_autoencoder",
                 "metric_unsupervised": "reconstruction_error"
             }
@@ -97,14 +105,10 @@ class Talos(object):
             "y_val": y_val,
             "POPULATION_SIZE": pop,
             "GENERATIONS": gen,
-            # "ANOMALY_CLASS": self.anomaly_class,
-            # "NORMAL_CLASS": self.normal_class,
-            # "ALGORITHM": self.algorithm,
-            # "MULTICORE": self.multicore,
-            "EXPERIMENT_NAME": experiment_name,
+            "EXPERIMENT_NAME": mlflow_experiment_name,
             "TYPE": "unsupervised" if y_val is None else "supervised",
             # "FITNESS_FUNCTION": f"supervised_learning.classification, {self.performance_metric}" if self.multiobjective else "supervised_learning.classification",
-            "RESULTS_PATH": results_path,
+            "RESULTS_PATH": os.path.abspath(results_path),
             "ALWAYS_AT_HAND": always_at_hand,
         }
 
@@ -145,11 +149,17 @@ class Talos(object):
         # Generate statistics for run so far
         get_stats(self.population)
 
-        mlflow = get_mlflow(self.params["EXPERIMENT_NAME"])
+        #mlflow = get_mlflow(self.params["EXPERIMENT_NAME"])
+        mlflow_params = {
+            "run_name": mlflow_run_name,
+            "tracking_uri": mlflow_tracking_uri,
+            "experiment_name": mlflow_experiment_name,
+        }
 
         range_generations = tqdm(range(1, (self.params["GENERATIONS"] + 1)))
+
         self.population = self.evolve(
-            self.params, range_generations, mlflow, self.population, early_stopping_rounds, early_stopping_tolerance)
+            self.params, range_generations, self.population, early_stopping_rounds, early_stopping_tolerance, mlflow_params)
         # get_stats(population, end=True)
         store_pop(self.population)
 
@@ -162,14 +172,17 @@ class Talos(object):
 
     def reconstruct(self, X_test: pd.DataFrame, mode: str = "all"):
         if mode == "all":
-            reconstrutions = [ind.reconstuct(X_test)
+            reconstrutions = [ind.reconstruct(X_test)
                               for ind in self.population]
         elif mode == "best":
-            best = min(self.population, key=lambda x: x.fitness[0])
-            reconstrutions = best.reconstuct(X_test)
+            if self.multiobjective:
+                best = min(self.population, key=lambda x: x.fitness[0])
+            else:
+                best = min(self.population, key=lambda x: x.fitness)
+            reconstrutions = best.reconstruct(X_test)
         elif mode == "simplest":
             simplest = min(self.population, key=lambda x: x.fitness[1])
-            reconstrutions = simplest.reconstuct(X_test)
+            reconstrutions = simplest.reconstruct(X_test)
         elif mode == "balanced":
             from math import log10
 
@@ -390,16 +403,20 @@ class Talos(object):
         self,
         params: dict,
         range_generations: range,
-        mlflow,
         population: list,
         early_stopping_rounds: int,
-        early_stopping_tolerance: float
+        early_stopping_tolerance: float,
+        mlflow_params: dict = None,
     ) -> List:
 
         leaderboard_list = []
 
-        # end current run (if it is started)
-        mlflow.end_run()
+        # config mlflow experiment
+        mlflow.set_tracking_uri(os.path.join(
+            os.path.abspath(mlflow_params["tracking_uri"]), "mlruns"))
+        mlflow.set_registry_uri(os.path.join(
+            os.path.abspath(mlflow_params["tracking_uri"]), "mlruns"))
+        mlflow.set_experiment(mlflow_params["experiment_name"])
 
         # trigger to end current run faster
         end = False
@@ -410,11 +427,14 @@ class Talos(object):
         else:
             best_performance = np.inf
 
-        with mlflow.start_run():
+        with mlflow.start_run(run_name=mlflow_params["run_name"]) as run:
             for key, val in params.items():
                 if key in [
                     "X_train",
                     "y_train",
+                    "X_train_len",
+                    "X_val",
+                    "y_val",
                     "X_test",
                     "y_test",
                     "POOL",
@@ -490,13 +510,13 @@ class Talos(object):
                         pareto_points = [[ind.fitness[0], ind.fitness[1]]
                                          for ind in pareto_individuals]
 
-                    hypervolume = pg.hypervolume(pareto_points)
-                    ref_value = hypervolume.refpoint()
-                    hypervolume_value = hypervolume.compute(ref_value)
-                    print("HYPERVOLUME: \n\n\n\n\n\n\n\n\n\n\n", hypervolume_value)
+                    #hypervolume = pg.hypervolume(pareto_points)
+                    #ref_value = hypervolume.refpoint()
+                    #hypervolume_value = hypervolume.compute(ref_value)
+                    #print("HYPERVOLUME: \n\n\n\n\n\n\n\n\n\n\n", hypervolume_value)
 
-                    if hypervolume_value > best_performance:
-                        best_performance = hypervolume_value
+                    # if hypervolume_value > best_performance:
+                    #    best_performance = hypervolume_value
 
                     if (best_performance + early_stopping_tolerance) > best_performance_before_generation:
                         round_count = 0
@@ -511,23 +531,25 @@ class Talos(object):
                     else:
                         if (best_performance - early_stopping_tolerance) < best_performance_before_generation:
                             round_count = 0
-                            #best_performance_before_generation = best_performance
+                            best_performance_before_generation = best_performance
                         else:
                             round_count += 1
 
-                #print(f"ROUND COUNT \n\n\n\n\n\n\:{round_count}")
+                print(f"ROUND COUNT \n\n\n\n\n\n\:{round_count}")
 
                 if early_stopping_rounds is not None and round_count >= early_stopping_rounds:
                     end = True
-                    #print("EARLY STOPPING\n\n\n\n\n\n\n")
+                    print("EARLY STOPPING\n\n\n\n\n\n\n")
 
                 if generation == params["GENERATIONS"] or end:
                     i = 0
                     for ind in population:
                         if ind.model.__class__.__name__ == "Sequential":
-                            mlflow.keras.log_model(ind.model, f"model_{i}")
+                            #mlflow.keras.log_model(ind.model, f"model_{i}")
+                            pass
                         elif ind.model.__class__.__name__ in ["OneClassSVM", "IsolationForest"]:
-                            mlflow.sklearn.log_model(ind.model, f"model_{i}")
+                            #mlflow.sklearn.log_model(ind.model, f"model_{i}")
+                            pass
                         i += 1
 
                     if end:
@@ -545,7 +567,7 @@ class Talos(object):
             mlflow.log_artifact(params["FILE_PATH"] + "/leaderboard.csv")
             self.leaderboard = leaderboard.copy()
 
-        mlflow.end_run()
+        # mlflow.end_run()
 
         return population
 
@@ -574,43 +596,6 @@ def list_params(**extra_params: dict) -> List:
     return param_list
 
 
-def get_mlflow(experiment_name: str):
-    """
-    Internal function for the use of mlflow.
-    For advanced users only.
-    Parameters
-    ----------
-    experiment_name : str
-        The mlflow experiment name.
-    Returns
-    -------
-    mlflow : mlflow
-        The mlflow execution to store metrics and parameters.
-    """
-
-    URI = path.join("talos", "results", "mlruns")
-    #mlflow.set_tracking_uri("file://" + getcwd() + "/results/mlruns")
-    #mlflow.set_registry_uri("file://" + getcwd() + "/results/mlruns")
-    mlflow.set_tracking_uri(
-        "file:///home/lferreira/talos/talos/results/mlruns")
-    mlflow.set_registry_uri(
-        "file:///home/lferreira/talos/talos/results/mlruns")
-    print("TRACKING URI\n")
-    print(mlflow.get_tracking_uri())
-    print("REGISTRY URI\n")
-    print(mlflow.get_registry_uri())
-
-    client = MlflowClient()
-    try:
-        _ = mlflow.create_experiment(experiment_name)
-    except:
-        _ = client.get_experiment_by_name(experiment_name)
-    mlflow.set_experiment(experiment_name)
-    print("ARTIFACT URI\n")
-    print(mlflow.get_artifact_uri())
-    return mlflow
-
-
 def store_pop(population: List):
     """
     Stores the evolved population. For advanced users only.
@@ -626,13 +611,13 @@ def store_pop(population: List):
     # SEEDS_PATH = path.join('results', params["FILE_PATH"], 'seeds')
     # makedirs(path.join(getcwd(), SEEDS_PATH, params['TARGET_SEED_FOLDER']),
     #         exist_ok=True)
-    SEEDS_PATH = path.join(params["FILE_PATH"], "seeds")
-    makedirs(SEEDS_PATH, exist_ok=True)
+    SEEDS_PATH = os.path.join(params["FILE_PATH"], "seeds")
+    os.makedirs(SEEDS_PATH, exist_ok=True)
     for cont, item in enumerate(population):
         if item.phenotype != None:
             # fname = path.join(SEEDS_PATH, params['TARGET_SEED_FOLDER'],
             #                  "{0}.txt".format(str(cont)))
-            fname = path.join(
+            fname = os.path.join(
                 SEEDS_PATH, params["TARGET_SEED_FOLDER"], "{0}.txt".format(
                     str(cont))
             )

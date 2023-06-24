@@ -133,7 +133,7 @@ def generate_folders_and_files():
 
     if params["EXPERIMENT_NAME"]:
         # Experiment manager is being used.
-        path_1 = path.join(getcwd(), params["RESULTS_PATH"], "results")
+        path_1 = path.join(params["RESULTS_PATH"], "results")
 
         if not path.isdir(path_1):
             # Create results folder.
@@ -144,8 +144,7 @@ def generate_folders_and_files():
 
     else:
         # Set file path to results folder.
-        params["FILE_PATH"] = path.join(
-            getcwd(), params["RESULTS_PATH"], "results")
+        params["FILE_PATH"] = path.join(params["RESULTS_PATH"], "results")
 
     # Generate save folders
     if not path.isdir(params["FILE_PATH"]):

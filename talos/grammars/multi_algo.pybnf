@@ -1,5 +1,4 @@
-<res> ::= <autoencoder> | <iforest> | <ocsvm>
-
+<res> ::= <autoencoder> | <iforest> | <ocsvm> | <lof>
 
 # autoencoder
 
@@ -44,3 +43,21 @@
 <gamma> ::= "'scale'" | "'auto'"
 
 <shrinking> ::= "True" | "False"
+
+# lof
+
+<lof> ::= model = LocalOutlierFactor(n_neighbors = <n_neighbors>, algorithm = <algorithm>, leaf_size = <leaf_size>, metric = <metric>, contamination = <contamination>, novelty = "True", n_jobs =-1)
+
+<n_neighbors> ::= <digit> | <digit><digit> | <single_digit><digit><digit>
+
+<digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+<algorithm> ::= "'ball_tree'" | "'kd_tree'" | "'brute'" | "'auto'"
+
+<leaf_size> ::= <digit> | <digit><digit>
+
+<metric> ::= "'minkowski'" | "'cityblock'" | "'cosine'" | "'euclidean'" | "'l1'" | "'l2'"
+
+<contamination> ::= "'auto'" | 0.<half_digits>
+
+<half_digits> ::= 1 | 2 | 3 | 4 | 5

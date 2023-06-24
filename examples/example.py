@@ -17,8 +17,11 @@ run = talos.fit(
     X_val=X_val,
     pop=3,
     gen=3,
-    experiment_name="software-impacts",
-    epochs=100
+    epochs=100,
+    mlflow_tracking_uri="./../test/",
+    mlflow_experiment_name="experiment_mlflow",
+    mlflow_run_name="run_1",
+    results_path="./../test"
 )
 
 # predict

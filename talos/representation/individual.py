@@ -52,6 +52,7 @@ class Individual(object):
         self.model = None
         self.threshold = 0
         self.losses = None
+        self.rec_error = 0
 
     def __lt__(self, other):
         """
@@ -160,7 +161,7 @@ class Individual(object):
         if self.model.__class__.__name__ == "Sequential":
             preds = self.predict_autoencoder(
                 X, anomaly_class, normal_class, threshold)
-        elif self.model.__class__.__name__ in ["OneClassSVM", "IsolationForest"]:
+        elif self.model.__class__.__name__ in ["OneClassSVM", "IsolationForest", "LocalOutlierFactor"]:
             preds = self.predict_sklearn(X, anomaly_class, normal_class)
 
         return preds

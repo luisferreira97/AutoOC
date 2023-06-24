@@ -20,14 +20,14 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/luisferreira97/talos">
+  <!--<a href="https://github.com/luisferreira97/talos">
     <img src="images/logo.png" alt="Logo" width="80" height="115">
-  </a>
+  </a>-->
 
-  <h3 align="center">Talos (in development)</h3>
+  <h3 align="center">AutoOC (in Beta)</h3>
 
   <p align="center">
-    Talos: Automated Machine Learning (AutoML) library focused on One-Class Learning algorithms (AutoEncoders, Isolation Forest and One-Class SVM)
+    AutoOC: Automated Machine Learning (AutoML) library focused on One-Class Learning algorithms (AutoEncoders, Isolation Forest and One-Class SVM)
     <br />
     <a href="https://github.com/luisferreira97/talos"><strong>Explore the docs »</strong></a>
     <br />
@@ -231,7 +231,24 @@ score = talos.evaluate(X_test,
 
 _For more examples, please refer to the [Documentation](https://example.com)_-->
 
+<!-- CITATION -->
+## Citation
 
+To cite this work please use:
+
+```
+@article{FERREIRA2022109820,
+  author = {Luís Ferreira and André Pilastri and Filipe Romano and Paulo Cortez},
+  title = {Using supervised and one-class automated machine learning for predictive maintenance},
+  journal = {Applied Soft Computing},
+  volume = {131},
+  pages = {109820},
+  year = {2022},
+  issn = {1568-4946},
+  doi = {https://doi.org/10.1016/j.asoc.2022.109820},
+  url = {https://www.sciencedirect.com/science/article/pii/S1568494622008699}
+}
+```
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -263,7 +280,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Luís Ferreira - [LinkedIn](https://www.linkedin.com/in/luisferreira97/) - email@example.com
+Luís Ferreira - [LinkedIn](https://www.linkedin.com/in/luisferreira97/) - luis_ferreira223@hotmail.com
 
 Project Link: [https://github.com/luisferreira97/talos](https://github.com/luisferreira97/talos)
 
