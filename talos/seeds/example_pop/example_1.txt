@@ -1,0 +1,15 @@
+Generation:
+50
+
+Phenotype:
+np.tanh(np.sin(plog(np.sin(np.sin(np.sin(x[2]*np.tanh(plog(np.sin(np.tanh(psqrt(psqrt(x[2])))))))))+plog(plog(np.sin(plog(psqrt(x[3]))))))))
+
+Genotype:
+[13836, 62075, 23, 73785, 79625, 57320, 20, 47222, 8741, 79326, 23, 44930, 79326, 76084, 48214, 73706, 23, 23, 21605, 67643, 19, 39372, 81838, 23, 20, 19, 24]
+Tree:
+None
+
+Training fitness:
+0.033550399872
+Test fitness:
+0.0304362796265

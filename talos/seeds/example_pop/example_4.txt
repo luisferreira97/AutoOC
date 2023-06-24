@@ -1,0 +1,1 @@
+np.tanh(np.sin(plog(np.sin(np.sin(np.sin(x[2]*np.tanh(plog(np.sin(np.tanh(psqrt(psqrt(x[2])))))))))+plog(plog(np.sin(plog(psqrt(x[3]))))))))

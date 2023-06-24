@@ -1,0 +1,2 @@
+Phenotype:
+np.tanh(plog(np.sin(psqrt(x[3]))))

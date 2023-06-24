@@ -1,0 +1,10 @@
+<model> ::= Sequential([
+    Dense(units = 640, activation=<activation>),
+    <hidden_layers>,
+    Dense(units = <LatentUnits>, activation = <activation>)])
+<hidden_layers> ::= <Dense> | <Dense>, <Dense>| <hidden_layers>, <Dense>
+<Dense> ::= Dense(units = <DenseUnits>, activation = <activation>)
+<DenseUnits> ::= 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 | 512
+<activation> ::= "'relu'" | "'sigmoid'" | "'softmax'" | "'softplus'" |
+    "'softsign'" | "'tanh'" | "'selu'" | "'elu'" | "'exponential'"
+<LatentUnits> ::= 2 | 4 | 8 | 16 | 32 | 64

@@ -1,0 +1,16 @@
+CACHE:                  True
+CODON_SIZE:             100000
+CROSSOVER:              variable_onepoint
+CROSSOVER_PROBABILITY:  0.75
+DEBUG:                  False
+MAX_GENOME_LENGTH:      1000
+GRAMMAR_FILE:           autoencoders_v4.pybnf
+INITIALISATION:         PI_grow
+INVALID_SELECTION:      False
+MAX_INIT_TREE_DEPTH:    10
+MAX_TREE_DEPTH:         17
+MUTATION:               int_flip_per_codon
+SELECTION:              nsga2_selection
+REPLACEMENT:            nsga2_replacement
+TOURNAMENT_SIZE:        2
+VERBOSE:                False

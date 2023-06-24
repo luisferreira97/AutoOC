@@ -1,0 +1,11 @@
+# one-class svm
+
+<res> ::= model = OneClassSVM(kernel = <kernel>, degree = <degree>, gamma = <gamma>, shrinking = <shrinking>)
+
+<kernel> ::= "'linear'" | "'poly'" | "'rbf'" | "'sigmoid'"
+
+<degree> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+<gamma> ::= "'scale'" | "'auto'"
+
+<shrinking> ::= "True" | "False"

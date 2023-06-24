@@ -1,0 +1,15 @@
+# isolation forest
+
+<res> ::= model = IsolationForest(n_estimators = <estimators>, contamination = <contamination>, bootstrap = <bootstrap>)
+
+<estimators> ::= <single_digit> | <single_digit><digit> | <single_digit><digit><digit>
+
+<single_digit> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+<digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+<contamination> ::= "'auto'" | 0.<half_digits>
+
+<half_digits> ::= 1 | 2 | 3 | 4 | 5
+
+<bootstrap> ::= "True" | "False"

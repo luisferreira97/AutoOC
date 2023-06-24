@@ -1,0 +1,13 @@
+Generation:
+0
+
+Phenotype:
+([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})
+
+Genotype:
+[2, 11, 2, 10, 2, 13, 9, 2, 13, 5, 4, 26, 4, 31, 3, 13, 5, 5, 26, 5, 31, 2, 18, 3, 2, 12, 3, 10, 3, 12, 3, 4, 46, 2, 4, 43, 2, 18, 3, 2, 15, 3, 11, 2, 10, 2, 13, 9, 2, 13, 5, 4, 26, 4, 31, 3, 13, 5, 5, 26, 5, 31, 3, 18, 3, 2, 12]
+Tree:
+(<RE> (<elementary-RE> ( (<RE> (<elementary-RE> [ (<RE> (<elementary-RE> (<range> 0-9)) (<RE> (<elementary-RE> (<range> (<an_char> (<A_Z> A)) - (<an_char> (<A_Z> F)))) (<RE> (<elementary-RE> (<range> (<an_char> (<a_z> a)) - (<an_char> (<a_z> f))))))) ]) (<RE> (<elementary-RE> { (<match_times> (<recur_digit> (<0_9> 2))) }) (<RE> (<elementary-RE> [ (<RE> (<elementary-RE> (<set> (<char> (<s_char> :)) (<set> (<char> (<s_char> -)))))) ])))) )) (<RE> (<elementary-RE> { (<match_times> (<recur_digit> (<0_9> 5))) }) (<RE> (<elementary-RE> ( (<RE> (<elementary-RE> [ (<RE> (<elementary-RE> (<range> 0-9)) (<RE> (<elementary-RE> (<range> (<an_char> (<A_Z> A)) - (<an_char> (<A_Z> F)))) (<RE> (<elementary-RE> (<range> (<an_char> (<a_z> a)) - (<an_char> (<a_z> f))))))) ]) (<RE> (<elementary-RE> { (<match_times> (<recur_digit> (<0_9> 2))) }))) )))))
+
+Fitness:
+0.0017640810692682862

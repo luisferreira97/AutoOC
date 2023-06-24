@@ -1,0 +1,13 @@
+Generation:
+0
+
+Phenotype:
+[-+]?(?:\d+\.?\d*|\d*\.?\d+)(?:[eE][-+]?\d+)?
+
+Genotype:
+[2, 14, 13, 3, 10, 3, 14, 11, 3, 15, 4, 43, 2, 11, 2, 14, 13, 3, 14, 9, 3, 12, 3, 4, 51, 3, 4, 46, 3, 4, 54, 3, 5, 5, 29, 3, 4, 41, 3, 4, 54, 3, 4, 44, 3, 4, 51, 3, 4, 54, 3, 5, 5, 29, 3, 4, 40, 3, 4, 62, 3, 4, 54, 3, 5, 5, 29, 3, 4, 40, 2, 4, 54, 3, 14, 11, 3, 17, 3, 14, 13, 3, 19, 10, 2, 10, 3, 12, 3, 5, 5, 30, 2, 5, 4, 30, 2, 14, 13, 3, 10, 3, 14, 11, 3, 15, 4, 43, 3, 14, 11, 3, 17]
+Tree:
+(<RE> (<elementary-RE> (<modifier> (<RE> (<elementary-RE> [ (<RE> (<elementary-RE> (<modifier> (<RE> (<elementary-RE> (<char> (<s_char> -)))) +))) ])) ?)) (<RE> (<elementary-RE> ( (<RE> (<elementary-RE> (<modifier> (<RE> (<elementary-RE> (<modifier> (<RE> (<elementary-RE> (<set> (<char> (<s_char> ?)) (<set> (<char> (<s_char> :)) (<set> (<char> (<s_char> \)) (<set> (<char> (<an_char> (<a_z> d))) (<set> (<char> (<s_char> +)) (<set> (<char> (<s_char> \)) (<set> (<char> (<s_char> .)) (<set> (<char> (<s_char> ?)) (<set> (<char> (<s_char> \)) (<set> (<char> (<an_char> (<a_z> d))) (<set> (<char> (<s_char> *)) (<set> (<char> (<s_char> |)) (<set> (<char> (<s_char> \)) (<set> (<char> (<an_char> (<a_z> d))) (<set> (<char> (<s_char> *)) (<set> (<char> (<s_char> \)))))))))))))))))))) .))) ?)) (<RE> (<elementary-RE> (<modifier> (<RE> (<elementary-RE> \d)) +)))) )) (<RE> (<elementary-RE> (<modifier> (<RE> (<elementary-RE> (<lookarounds> (?: (<RE> (<elementary-RE> [ (<RE> (<elementary-RE> (<set> (<char> (<an_char> (<a_z> e))) (<set> (<char> (<an_char> (<A_Z> E))))))) ]) (<RE> (<elementary-RE> (<modifier> (<RE> (<elementary-RE> [ (<RE> (<elementary-RE> (<modifier> (<RE> (<elementary-RE> (<char> (<s_char> -)))) +))) ])) ?)) (<RE> (<elementary-RE> (<modifier> (<RE> (<elementary-RE> \d)) +))))) )))) ?)))))
+
+Fitness:
+0.000891372561454773

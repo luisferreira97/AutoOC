@@ -1,0 +1,13 @@
+Generation:
+0
+
+Phenotype:
+.X(.+)+XX
+
+Genotype:
+[2, 12, 3, 4, 44, 2, 5, 4, 49, 2, 11, 3, 14, 11, 3, 15, 4, 44, 3, 12, 3, 4, 41, 3, 5, 4, 49, 2, 5, 4, 49]
+Tree:
+(<RE> (<elementary-RE> (<set> (<char> (<s_char> .)) (<set> (<char> (<an_char> (<A_Z> X)))))) (<RE> (<elementary-RE> ( (<RE> (<elementary-RE> (<modifier> (<RE> (<elementary-RE> (<char> (<s_char> .)))) +))) )) (<RE> (<elementary-RE> (<set> (<char> (<s_char> +)) (<set> (<char> (<an_char> (<A_Z> X))) (<set> (<char> (<an_char> (<A_Z> X))))))))))
+
+Fitness:
+0.001251713722012937

@@ -1,0 +1,13 @@
+Generation:
+0
+
+Phenotype:
+^[0-9A-F]{12}$
+
+Genotype:
+[2, 15, 4, 56, 2, 10, 2, 13, 9, 3, 13, 5, 4, 26, 4, 31, 3, 12, 3, 4, 59, 3, 5, 3, 11, 3, 5, 3, 12, 3, 4, 60, 2, 4, 35]
+Tree:
+(<RE> (<elementary-RE> (<char> (<s_char> ^))) (<RE> (<elementary-RE> [ (<RE> (<elementary-RE> (<range> 0-9)) (<RE> (<elementary-RE> (<range> (<an_char> (<A_Z> A)) - (<an_char> (<A_Z> F)))))) ]) (<RE> (<elementary-RE> (<set> (<char> (<s_char> {)) (<set> (<char> (<an_char> (<0_9> 1))) (<set> (<char> (<an_char> (<0_9> 2))) (<set> (<char> (<s_char> })) (<set> (<char> (<s_char> $)))))))))))
+
+Fitness:
+5.1116105169057846e-05
