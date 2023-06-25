@@ -14,9 +14,6 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-
-
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -29,11 +26,11 @@
   <p align="center">
     AutoOC: Automated Machine Learning (AutoML) library focused on One-Class Learning algorithms (AutoEncoders, Isolation Forest and One-Class SVM)
     <br />
-    <a href="https://github.com/luisferreira97/AutoOC"><strong>Explore the docs »</strong></a>
+    <!--<a href="https://github.com/luisferreira97/AutoOC"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://github.com/luisferreira97/AutoOC">View Demo</a>
-    ·
+    <br />-->
+    <!--<a href="https://github.com/luisferreira97/AutoOC">View Demo</a>
+    ·-->
     <a href="https://github.com/luisferreira97/AutoOC/issues">Report Bug</a>
     ·
     <a href="https://github.com/luisferreira97/AutoOC/issues">Request Feature</a>
@@ -42,7 +39,7 @@
 
 
 
-<!-- TABLE OF CONTENTS -->
+<!-- TABLE OF CONTENTS 
 <details open="open">
   <summary>Table of Contents</summary>
   <ol>
@@ -66,11 +63,11 @@
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
-</details>
+</details>-->
 
 
 
-<!-- ABOUT THE PROJECT -->
+<!-- ABOUT THE PROJECT 
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
@@ -85,16 +82,7 @@ Here's why:
 Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have have contributed to expanding this template!
 
 A list of commonly used resources that I find helpful are listed in the acknowledgements.
-
-### Built With
-
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-* [Python](https://www.python.org)
-* [PonyGE2](https://github.com/PonyGE/PonyGE2)
-* [TensorFlow](https://www.tensorflow.org/)
-* [Scikit-Learn](https://scikit-learn.org/)
-
-
+-->
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -125,9 +113,18 @@ from autooc.autooc import AutoOC
 The second step is to instantiate the AutoOC class with the information about your dataset and context (e.g., normal and anomaly classes, wether to run single-objective or multi-objective, the performance_metric, and the algorithm).
 You can change the ```algorithm``` parameter to select which algorithms are used during the optimization. The options are:
 - "autoencoders": Deep AutoEncoders (from TensorFlow)
+- "vae": Variational AutoEncoders (from TensorFlow)
 - "iforest": Isolation Forest (from Scikit-Learn)
+- "lof": Local Outlier Factor (Scikit-Learn)
 - "svm": One-Class SVM (from Scikit-Learn)
-- "all": the optimization is done using the three algorithms above
+- "nas": the optimization is done using AutoEncoders and VAEs
+- "all": the optimization is done using all five algorithms
+
+For the ```performance_metric``` parameter to select which algorithms are used during the optimization. The options are:
+- "training_time": Minimizes training time
+- "predict_time": Minimizes the time it takes to predict one record
+- "num_params": Minimizes the number of parameters (```count_params()``` in Keras); only available when ```algorithm``` equals to ```autoencoders```, ```vae```, or ```nas```.
+- "bic": Minimizes the value of the Bayesian Information Criterion
 
 ```python
 aoc = AutoOC(anomaly_class = 0,
@@ -153,10 +150,13 @@ The fourth step is to train the model. The ```fit()``` function computes the opt
 run = aoc.fit(
     X=X_train,
     X_val=X_val,
-    pop=10,
-    gen=10,
-    experiment_name="test",
-    epochs=1000
+    pop=3,
+    gen=3,
+    epochs=100,
+    mlflow_tracking_uri="../results",
+    mlflow_experiment_name="test_experiment",
+    mlflow_run_name="test_run",
+    results_path="../results"
 )
 ```
 
@@ -194,7 +194,7 @@ score = aoc.evaluate(X_test,
     threshold="default")
 ```
 
-## Usage
+## Usage (Full Example)
 
 ```python
 from autooc.autooc import AutoOC
@@ -211,10 +211,13 @@ X_train, X_val, X_test, y_test = aoc.load_example_data()
 run = aoc.fit(
     X=X_train,
     X_val=X_val,
-    pop=10,
-    gen=10,
-    experiment_name="test",
-    epochs=1000
+    pop=3,
+    gen=3,
+    epochs=100,
+    mlflow_tracking_uri="../results",
+    mlflow_experiment_name="test_experiment",
+    mlflow_run_name="test_run",
+    results_path="../results"
 )
 
 predictions = aoc.predict(X_test,
@@ -233,7 +236,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_-->
 <!-- CITATION -->
 ## Citation
 
-To cite this work please use:
+To cite this work please use at least one of the following articles:
 
 ```
 @article{FERREIRA2022109820,
@@ -249,12 +252,31 @@ To cite this work please use:
 }
 ```
 
+```
+@article{FERREIRA2023110496,
+  author = {Luís Ferreira and Paulo Cortez}
+  title = {AutoOC: Automated multi-objective design of deep autoencoders and one-class classifiers using grammatical evolution},
+  journal = {Applied Soft Computing},
+  volume = {144},
+  pages = {110496},
+  year = {2023},
+  issn = {1568-4946},
+  doi = {https://doi.org/10.1016/j.asoc.2023.110496},
+  url = {https://www.sciencedirect.com/science/article/pii/S1568494623005148}
+}
+```
+
+### Built With
+
+* [Python](https://www.python.org)
+* [PonyGE2](https://github.com/PonyGE/PonyGE2)
+* [TensorFlow](https://www.tensorflow.org/)
+* [Scikit-Learn](https://scikit-learn.org/)
+
 <!-- ROADMAP -->
 ## Roadmap
 
 See the [open issues](https://github.com/luisferreira97/AutoOC) for a list of proposed features (and known issues).
-
-
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -267,14 +289,10 @@ Contributions are what make the open source community such an amazing place to b
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-
-
 <!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-
 
 <!-- CONTACT -->
 ## Contact
@@ -307,4 +325,4 @@ Project Link: [https://github.com/luisferreira97/AutoOC](https://github.com/luis
 [license-url]: https://github.com/luisferreira97/AutoOC/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/luisferreira97/
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: images/logo.png
