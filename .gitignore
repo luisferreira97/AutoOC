@@ -130,7 +130,7 @@ dmypy.json
 
 
 # added by me
-/talos/results/*
+/autooc/results/*
 data/*
 src/asoc-experiments/results/*
 src/asoc-neuro-experiments/*

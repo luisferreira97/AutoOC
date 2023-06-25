@@ -1,2 +1,2 @@
-include talos/grammars/*
+include autooc/grammars/*
 include images/*

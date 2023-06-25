@@ -6,7 +6,7 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-<!--[![Downloads](https://static.pepy.tech/personalized-badge/talos-automl?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/talos-automl)-->
+<!--[![Downloads](https://static.pepy.tech/personalized-badge/autooc?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/autooc)-->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -20,23 +20,23 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <!--<a href="https://github.com/luisferreira97/talos">
-    <img src="images/logo.png" alt="Logo" width="80" height="115">
-  </a>-->
+  <a href="https://github.com/luisferreira97/AutoOC">
+    <img src="images/logo.png" alt="Logo" width="100" height="100">
+  </a>
 
   <h3 align="center">AutoOC (in Beta)</h3>
 
   <p align="center">
     AutoOC: Automated Machine Learning (AutoML) library focused on One-Class Learning algorithms (AutoEncoders, Isolation Forest and One-Class SVM)
     <br />
-    <a href="https://github.com/luisferreira97/talos"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/luisferreira97/AutoOC"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/luisferreira97/talos">View Demo</a>
+    <a href="https://github.com/luisferreira97/AutoOC">View Demo</a>
     ·
-    <a href="https://github.com/luisferreira97/talos/issues">Report Bug</a>
+    <a href="https://github.com/luisferreira97/AutoOC/issues">Report Bug</a>
     ·
-    <a href="https://github.com/luisferreira97/talos/issues">Request Feature</a>
+    <a href="https://github.com/luisferreira97/AutoOC/issues">Request Feature</a>
   </p>
 </p>
 
@@ -103,27 +103,26 @@ This section presents how the package can be reached and installed.
 
 ### Where to get it
 
-The source code is currently hosted on GitHub at: https://github.com/luisferreira97/talos
+The source code is currently hosted on GitHub at: https://github.com/luisferreira97/AutoOC
 
-Binary installer for the latest released version are available at the Python Package Index (PyPI).
-Note that the PyPI name of the package is `talos-automl` and not `talos`.
+Binary installer for the latest released version are available at the Python Package Index (PyPI). The PyPI name of the package is `autooc`.
 
 ```sh
-pip install talos-automl
+pip install autooc
 ```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
 ### 1. Import the package
-The first step in using the package is, after it has been installed, to import it. The main class from which all the methods are available is ```Talos```.
+The first step in using the package is, after it has been installed, to import it. The main class from which all the methods are available is ```AutoOC```.
 
 ```python
-from talos.talos import Talos
+from autooc.autooc import AutoOC
 ```
 
-### 2. Instantiate a Talos object
-The second step is to instantiate the Talos class with the information about your dataset and context (e.g., normal and anomaly classes, wether to run single-objective or multi-objective, the performance_metric, and the algorithm).
+### 2. Instantiate a AutoOC object
+The second step is to instantiate the AutoOC class with the information about your dataset and context (e.g., normal and anomaly classes, wether to run single-objective or multi-objective, the performance_metric, and the algorithm).
 You can change the ```algorithm``` parameter to select which algorithms are used during the optimization. The options are:
 - "autoencoders": Deep AutoEncoders (from TensorFlow)
 - "iforest": Isolation Forest (from Scikit-Learn)
@@ -131,7 +130,7 @@ You can change the ```algorithm``` parameter to select which algorithms are used
 - "all": the optimization is done using the three algorithms above
 
 ```python
-talos = Talos(anomaly_class = 0,
+aoc = AutoOC(anomaly_class = 0,
     normal_class = 1,
     multiobjective=True,
     performance_metric="training_time",
@@ -144,14 +143,14 @@ The third step is to load the dataset. Depending on the type of validation you n
 
 
 ```python
-X_train, X_val, X_test, y_test = talos.load_example_data()
+X_train, X_val, X_test, y_test = aoc.load_example_data()
 ```
 
 ### 4. Train
 The fourth step is to train the model. The ```fit()``` function computes the optimization using the given parameters.
 
 ```python
-run = talos.fit(
+run = aoc.fit(
     X=X_train,
     X_val=X_val,
     pop=10,
@@ -178,7 +177,7 @@ Additionally, you can use the ```threshold``` parameter (only used for AutoEncod
 
 
 ```python
-predictions = talos.predict(X_test,
+predictions = aoc.predict(X_test,
     mode="all",
     threshold="default")
 ```
@@ -188,7 +187,7 @@ predictions = talos.predict(X_test,
 You can use the predictions to calculate manually the performance metrics of the model. However, the ```evaluate()``` function is a more convenient way to do it. You can also use the ```mode``` parameter (works similarly to the ```predict()``` function) and use metrics from the ```sklearn.metrics``` package (currently available are "roc_auc", "accuracy", "precision", "recall", and "f1").
 
 ```python
-score = talos.evaluate(X_test,
+score = aoc.evaluate(X_test,
     y_test,
     mode="all",
     metric="roc_auc",
@@ -198,18 +197,18 @@ score = talos.evaluate(X_test,
 ## Usage
 
 ```python
-from talos.talos import Talos
+from autooc.autooc import AutoOC
 
-talos = Talos(anomaly_class = 0,
+aoc = AutoOC(anomaly_class = 0,
     normal_class = 1,
     multiobjective=True,
     performance_metric="training_time",
     algorithm = "autoencoder"
 )
 
-X_train, X_val, X_test, y_test = talos.load_example_data()
+X_train, X_val, X_test, y_test = aoc.load_example_data()
 
-run = talos.fit(
+run = aoc.fit(
     X=X_train,
     X_val=X_val,
     pop=10,
@@ -218,11 +217,11 @@ run = talos.fit(
     epochs=1000
 )
 
-predictions = talos.predict(X_test,
+predictions = aoc.predict(X_test,
     mode="all",
     threshold="default")
 
-score = talos.evaluate(X_test,
+score = aoc.evaluate(X_test,
     y_test,
     mode="all",
     metric="roc_auc",
@@ -253,7 +252,7 @@ To cite this work please use:
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/luisferreira97/talos) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/luisferreira97/AutoOC) for a list of proposed features (and known issues).
 
 
 
@@ -282,7 +281,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Luís Ferreira - [LinkedIn](https://www.linkedin.com/in/luisferreira97/) - luis_ferreira223@hotmail.com
 
-Project Link: [https://github.com/luisferreira97/talos](https://github.com/luisferreira97/talos)
+Project Link: [https://github.com/luisferreira97/AutoOC](https://github.com/luisferreira97/AutoOC)
 
 
 
@@ -297,15 +296,15 @@ Project Link: [https://github.com/luisferreira97/talos](https://github.com/luisf
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/luisferreira97/talos/graphs/contributors
+[contributors-url]: https://github.com/luisferreira97/AutoOC/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/luisferreira97/talos/network/members
+[forks-url]: https://github.com/luisferreira97/AutoOC/network/members
 [stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/luisferreira97/talos/stargazers
+[stars-url]: https://github.com/luisferreira97/AutoOC/stargazers
 [issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/luisferreira97/talos/issues
+[issues-url]: https://github.com/luisferreira97/AutoOC/issues
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/luisferreira97/talos/blob/master/LICENSE
+[license-url]: https://github.com/luisferreira97/AutoOC/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/luisferreira97/
 [product-screenshot]: images/screenshot.png

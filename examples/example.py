@@ -1,7 +1,7 @@
-from talos.talos import Talos
+from autooc.autooc import AutoOC
 
 # define problem
-talos = Talos(anomaly_class=0,
+aoc = AutoOC(anomaly_class=0,
               normal_class=1,
               multiobjective=True,
               performance_metric="training_time",
@@ -9,10 +9,10 @@ talos = Talos(anomaly_class=0,
               )
 
 # load data
-X_train, X_val, X_test, y_test = talos.load_example_data()
+X_train, X_val, X_test, y_test = aoc.load_example_data()
 
 # train
-run = talos.fit(
+run = aoc.fit(
     X=X_train,
     X_val=X_val,
     pop=3,
@@ -25,12 +25,12 @@ run = talos.fit(
 )
 
 # predict
-predictions = talos.predict(X_test,
+predictions = aoc.predict(X_test,
                             mode="all",
                             threshold="default")
 
 # score
-score = talos.evaluate(X_test,
+score = aoc.evaluate(X_test,
                        y_test,
                        mode="all",
                        metric="roc_auc",
