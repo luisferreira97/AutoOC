@@ -18,13 +18,13 @@
 <br />
 <p align="center">
   <a href="https://github.com/luisferreira97/AutoOC">
-    <img src="images/logo.png" alt="Logo" width="100" height="100">
+    <img src="https://raw.githubusercontent.com/luisferreira97/AutoOC/main/images/logo.png" alt="Logo" width="100" height="100">
   </a>
 
   <h3 align="center">AutoOC (in Beta)</h3>
 
   <p align="center">
-    AutoOC: Automated Machine Learning (AutoML) library focused on One-Class Learning algorithms (AutoEncoders, Isolation Forest and One-Class SVM)
+    AutoOC: Automated Machine Learning (AutoML) library focused on One-Class Learning algorithms (Deep AutoEncoders, Variational AutoEncoders, Isolation Forest, Local Outlier Factor and One-Class SVM)
     <br />
     <!--<a href="https://github.com/luisferreira97/AutoOC"><strong>Explore the docs »</strong></a>
     <br />
@@ -236,21 +236,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_-->
 <!-- CITATION -->
 ## Citation
 
-To cite this work please use at least one of the following articles:
-
-```
-@article{FERREIRA2022109820,
-  author = {Luís Ferreira and André Pilastri and Filipe Romano and Paulo Cortez},
-  title = {Using supervised and one-class automated machine learning for predictive maintenance},
-  journal = {Applied Soft Computing},
-  volume = {131},
-  pages = {109820},
-  year = {2022},
-  issn = {1568-4946},
-  doi = {https://doi.org/10.1016/j.asoc.2022.109820},
-  url = {https://www.sciencedirect.com/science/article/pii/S1568494622008699}
-}
-```
+To cite this work please use the following article:
 
 ```
 @article{FERREIRA2023110496,
