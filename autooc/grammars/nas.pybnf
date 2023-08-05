@@ -1,0 +1,59 @@
+# NAS
+
+<res> ::= <ae> | <vae> 
+
+
+# autoencoder
+
+<ae> ::= encoder = Sequential(){::}encoder.add(Input(shape=(input_shape,), name="'input'")){::}<hidden_layers>{::}<latent_space>{::}model = get_model_from_encoder(encoder){::}model.add(Dense(input_shape, activation=<activation_last>, name="'output'")){::}model.compile(<optimizer>, "'mae'")
+
+<hidden_layers> ::= <Dense>{::} | <Dense>{::}<Dense>{::} | <hidden_layers><Dense>{::} | <Dense>{::}<extra>{::}
+
+<Dense> ::= encoder.add(Dense(units = <percentage>, activation = <activation>))
+
+<activation> ::= "'relu'" | "'linear'"
+
+<activation_last> ::= "'relu'" | "'linear'"
+
+<latent_space> ::= encoder.add(Dense(units = <percentage>, activation = <activation>, name="'latent'"))
+
+<extra> ::= encoder.add(Dropout(rate=0.<digit>)){::} | encoder.add(BatchNormalization()){::}
+
+<digit> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+<percentage> ::= 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 100
+
+<optimizer> ::= "'RMSprop'" | "'Adam'"
+
+
+# variational autoencoder
+
+<res> ::= encoder = Sequential(){::}encoder.add(Input(shape=(input_shape,), name="'input'")){::}<hidden_layers>{::}<z_mean>{::}<z_log_var>{::}<z>{::}model = get_model_from_encoder(encoder){::}model.add(Dense(input_shape, activation=<activation_last>, name="'output'")){::}model.compile(<optimizer>, "'mae'")
+
+<hidden_layers> ::= <Dense>{::} | <Dense>{::}<Dense>{::} | <hidden_layers><Dense>{::} | <Dense>{::}<extra>{::}
+
+<Dense> ::= encoder.add(Dense(units = <percentage>, activation = <activation>))
+
+<activation> ::= "'relu'" | "'linear'"
+
+<extra> ::= encoder.add(Dropout(rate=0.<digit>)){::} | encoder.add(BatchNormalization()){::}
+
+<digit> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+<percentage> ::= 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 100
+
+<optimizer> ::= "'RMSprop'" | "'Adam'"
+
+<z_mean> ::= encoder.add(Dense(units = <percentage_z_mean>, activation = <activation_z_mean>, name = "'z_mean'"))
+
+<activation_z_mean> ::= "'relu'" | "'linear'"
+
+<percentage_z_mean> ::= 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 100
+
+<z_log_var> ::= encoder.add(Dense(units = <percentage_z_log_var>, activation = <activation_z_log_var>, name = "'z_log_var'"))
+
+<activation_z_log_var> ::= "'relu'" | "'linear'"
+
+<percentage_z_log_var> ::= 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 100
+
+<z> ::= Lambda(sample, output_shape(<percentage>), name = "'z'")

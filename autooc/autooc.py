@@ -91,6 +91,16 @@ class AutoOC(object):
                 "metric_supervised": "auc_sklearn",
                 "metric_unsupervised": "anomaly_score_lof"
             },
+            "vae": {
+                "grammar": os.path.join(os.path.dirname(os.path.abspath(__file__)), "grammars", "vae.pybnf"),
+                "metric_supervised": "auc_autoencoder",
+                "metric_unsupervised": "reconstruction_error"
+            },
+            "nas": {
+                "grammar": os.path.join(os.path.dirname(os.path.abspath(__file__)), "grammars", "nas.pybnf"),
+                "metric_supervised": "auc_autoencoder",
+                "metric_unsupervised": "reconstruction_error"
+            },
             "all": {
                 "grammar": os.path.join(os.path.dirname(os.path.abspath(__file__)), "grammars", "multi_algo.pybnf"),
                 "metric_supervised": "auc_autoencoder",
@@ -163,7 +173,7 @@ class AutoOC(object):
         # get_stats(population, end=True)
         store_pop(self.population)
 
-        print(self.population)
+        #print(self.population)
         self.population_dict = {ind.id: ind for ind in self.population}
 
         self.stats = stats
@@ -234,12 +244,12 @@ class AutoOC(object):
                      for x in preds]
             preds = [(lambda x: x.replace(self.normal_class, '0'))(x)
                      for x in preds]
-            print(preds[0])
+            #print(preds[0])
             preds = [(lambda x: x.astype(int))(x) for x in preds]
 
             y_test = (lambda x: x.replace(self.anomaly_class, '1'))(y_test)
             y_test = (lambda x: x.replace(self.normal_class, '0'))(y_test)
-            print(y_test)
+            #print(y_test)
             y_test = (lambda x: x.astype(int))(y_test)
 
         scores = [metrics[metric](y_test, pred) for pred in preds]
@@ -535,11 +545,11 @@ class AutoOC(object):
                         else:
                             round_count += 1
 
-                print(f"ROUND COUNT \n\n\n\n\n\n\:{round_count}")
+                #print(f"ROUND COUNT \n\n\n\n\n\n\:{round_count}")
 
                 if early_stopping_rounds is not None and round_count >= early_stopping_rounds:
                     end = True
-                    print("EARLY STOPPING\n\n\n\n\n\n\n")
+                    #print("EARLY STOPPING\n\n\n\n\n\n\n")
 
                 if generation == params["GENERATIONS"] or end:
                     i = 0
