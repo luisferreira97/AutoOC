@@ -229,9 +229,10 @@ score = aoc.evaluate(X_test,
     mode="all",
     metric="roc_auc",
     threshold="default")
+print(score)
 ```
 
-_For more examples, please refer to the [Documentation](https://example.com)_-->
+<!--_For more examples, please refer to the [Documentation](https://example.com)_-->
 
 <!-- CITATION -->
 ## Citation
