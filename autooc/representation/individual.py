@@ -157,7 +157,7 @@ class Individual(object):
             return self
 
     def predict(self, X, anomaly_class, normal_class, threshold):
-        print(self.model.__class__.__name__)
+        #print(self.model.__class__.__name__)
         if self.model.__class__.__name__ == "Sequential":
             preds = self.predict_autoencoder(
                 X, anomaly_class, normal_class, threshold)

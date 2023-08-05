@@ -90,10 +90,10 @@ def evaluate_autoencoder(ind, X_train):
     print("FENOTIPO")
     print(ind.phenotype)
     print("END FENOTIPO")
-    # print(type(ind.phenotype))
-    print("\nSTART D:\n")
-    print(d)
-    print("\nEND D:\n")
+    #print(type(ind.phenotype))
+    #print("\nSTART D:\n")
+    #print(d)
+    #print("\nEND D:\n")
 
     model = d["model"]
 
@@ -168,7 +168,7 @@ def evaluate_autoencoder(ind, X_train):
             )
         )
 
-    print(metric)
+    #print(metric)
     return metric
 
 
@@ -184,10 +184,10 @@ def evaluate_sklearn(ind, X_train, algorithm=None):
     print("FENOTIPO")
     print(ind.phenotype)
     print("END FENOTIPO")
-    # print(type(ind.phenotype))
-    print("\nSTART D:\n")
-    print(d)
-    print("\nEND D:\n")
+    #print(type(ind.phenotype))
+    #print("\nSTART D:\n")
+    #print(d)
+    #print("\nEND D:\n")
 
     model = d["model"]
 
@@ -229,7 +229,7 @@ def evaluate_sklearn(ind, X_train, algorithm=None):
             )
         )
 
-    print(metric)
+    #print(metric)
     return metric
 
 
@@ -253,12 +253,12 @@ def evaluate_all(ind, X_train):
     print(ind.phenotype)
     print("END FENOTIPO")
     # print(type(ind.phenotype))
-    print("\nSTART D:\n")
-    print(d)
-    print("\nEND D:\n")
+    #print("\nSTART D:\n")
+    #print(d)
+    #print("\nEND D:\n")
 
     model = d["model"]
-    print(dir(model))
+    #print(dir(model))
     # print(type(model.__class__.__name__))
 
     if model.__class__.__name__ == "Sequential":
