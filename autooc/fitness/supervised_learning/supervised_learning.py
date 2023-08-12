@@ -9,7 +9,7 @@ from sklearn.neighbors import LocalOutlierFactor
 from sklearn.svm import OneClassSVM
 from tensorflow.keras import Input, Sequential
 from tensorflow.keras.callbacks import EarlyStopping
-from tensorflow.keras.layers import BatchNormalization, Dense, Dropout, Input
+from tensorflow.keras.layers import BatchNormalization, Dense, Dropout, Input, Lambda
 from tensorflow.keras.utils import plot_model
 
 from autooc.algorithm.parameters import params
@@ -63,11 +63,11 @@ class supervised_learning(base_ff):
         :return: The fitness of the evaluated individual.
         """
 
-        if params["ALGORITHM"] == "autoencoder":
+        if params["ALGORITHM"] in ["autoencoder", "vae", "nas"]:
             metric = evaluate_autoencoder(ind, self.dtrain)
         elif params["ALGORITHM"] in ["iforest", "svm", "lof"]:
             metric = evaluate_sklearn(ind, self.dtrain)
-        elif params["ALGORITHM"] == "all":
+        elif params["ALGORITHM"] in "all":
             metric = evaluate_all(ind, self.dtrain)
 
         return metric
@@ -79,6 +79,7 @@ def evaluate_autoencoder(ind, X_train):
     d = {
         "Sequential": Sequential,
         "Dense": Dense,
+        "Lambda": Lambda,
         "BatchNormalization": BatchNormalization,
         "Input": Input,
         "Dropout": Dropout,
@@ -238,6 +239,7 @@ def evaluate_all(ind, X_train):
     d = {
         "Sequential": Sequential,
         "Dense": Dense,
+        "Lambda": Lambda,
         "BatchNormalization": BatchNormalization,
         "Input": Input,
         "Dropout": Dropout,
