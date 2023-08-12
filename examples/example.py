@@ -26,14 +26,16 @@ run = aoc.fit(
 
 # predict
 predictions = aoc.predict(X_test,
-                            mode="all",
-                            threshold="default")
+    mode="all",
+    threshold="default"
+)
 
 # score
 score = aoc.evaluate(X_test,
-                       y_test,
-                       mode="all",
-                       metric="roc_auc",
-                       threshold="default")
+    y_test,
+    mode="all",
+    metric="roc_auc",
+    threshold="default"
+)
 
 print(score)
