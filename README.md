@@ -232,6 +232,29 @@ score = aoc.evaluate(X_test,
 print(score)
 ```
 
+## Topic Definition
+
+### Grammatical Evolution (GE)
+
+Grammatical Evolution (GE) is a biologically inspired evolutionary algorithm for generating computer programs. The algorithm was proposed by O’Neill and Ryan in 2001 and has been widely used in both optimization and ML tasks. In GE, a set of programs is represented as strings of characters, known as chromosomes. The chromosomes are encoded using a formal grammar, which defines the syntax and structure of the programs. The grammar is used to parse the chromosomes and generate the corresponding programs, which are then evaluated using a fitness function. The fitness function measures the quality of the programs and is used to guide the evolution process toward better solutions.
+
+One of the main advantages of GE is its ability to generate programs in any language, as long as a suitable grammar is defined. This makes GE a versatile tool for developing custom software solutions for a wide range of applications. In addition to its flexibility and versatility, GE can handle complex optimization problems with a large number of objectives and constraints. It can also handle continuous and discrete optimization problems, as well as problems with mixed variables. GE has been shown to be effective in finding high-quality solutions in a relatively short time, compared to other optimization methods.
+
+A GE execution starts by creating an initial population of solutions (usually randomly), where each solution (usually named individual) corresponds to an array of integers (or genome) that is used to generate the program (or phenotype). In the evolutionary process of GE, each generation consists of two main phases: evolution and evaluation. During the evolution phase, new solutions are generated using operations such as crossovers and mutations. Crossover involves selecting pairs of individuals as parents and swapping their genetic material to produce new individuals, known as children. Mutation, which is applied to the children individuals after crossover, consists of randomly altering their genome to maintain genetic diversity. In the evaluation phase, the population of individuals is evaluated using the fitness function.
+
+GE uses a mapping process to generate programs from a genome encoded using a formal grammar, typically in Backus-Naur Form (BNF) notation. This notation consists of terminals, which represent items that can appear in the language, and non-terminals, which are variables that include one or more terminals.
+
+### Nondominated Sorting Genetic Algorithm II (NSGA-II)
+
+Nondominated Sorting Genetic Algorithm II (NSGA-II) is a multi-objective optimization algorithm that was proposed in 2002. The algorithm is based on the concept of non-dominance, which means that a solution is considered superior to another solution if it is not worse than the other solution in any objective and strictly better in at least one objective. The goal of NSGA-II is to find a set of non-dominated solutions, known as the Pareto front, which represents the trade-off between the different objectives.
+
+One of the main features of NSGA-II is its ability to handle constraints. The algorithm handles constraints by assigning a penalty value to solutions that violate the constraints. The penalty value is then used as an additional objective, which is minimized during the optimization process. NSGA-II also includes a crowding distance measure, which is used to preserve diversity among the solutions and avoid premature convergence. The algorithm has been widely used in various fields, including engineering, economics, and biology, and has shown promising results in a variety of multi-objective optimization problems.
+
+### One-Class Classification (OCC)
+
+Also known as unary classification, One-Class Classification (OCC) can be viewed as a subclass of unsupervised learning, where the Machine Learning model only learns using training examples from a single class [8, 9]. This type of learning is valuable in diverse real-world scenarios where labeled data is non-existent, infeasible, or difficult (e.g., requiring a costly and slow manual class assignment), such as fraud detection, cybersecurity, predictive maintenance or industrial quality assessment.
+
+
 <!--_For more examples, please refer to the [Documentation](https://example.com)_-->
 
 <!-- CITATION -->
