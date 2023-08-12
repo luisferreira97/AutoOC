@@ -91,8 +91,8 @@ class AutoOC(object):
                 "metric_supervised": "auc_sklearn",
                 "metric_unsupervised": "anomaly_score_lof"
             },
-            "vae": {
-                "grammar": os.path.join(os.path.dirname(os.path.abspath(__file__)), "grammars", "vae.pybnf"),
+            "var": {
+                "grammar": os.path.join(os.path.dirname(os.path.abspath(__file__)), "grammars", "var.pybnf"),
                 "metric_supervised": "auc_autoencoder",
                 "metric_unsupervised": "reconstruction_error"
             },
