@@ -9,7 +9,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setuptools.setup(
     name="autooc",
-    version="0.0.14",
+    version="0.0.17",
     author_email="luis_ferreira223@hotmail.com",
     author="Luís Ferreira",
     description="AutoOC: Automated Machine Learning (AutoML) library for One-Class Learning",
@@ -24,7 +24,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     py_modules=["autooc"],
-    python_requires='>=3.6, <3.9',
+    python_requires='>=3.6',
     keywords=['automl', 'machine learning', 'one-class learning',
               'one-class classification', 'autoencoder', 'isolation forest', 'one-class svm'],
     include_package_data=True,
